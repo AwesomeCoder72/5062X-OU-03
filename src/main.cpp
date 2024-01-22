@@ -141,7 +141,7 @@ void initialize() {
     pros::lcd::initialize(); // initialize brain screen
 
     chassis.calibrate(); // calibrate the chassis
-    chassis.setPose(-11, 60, 90);
+    // chassis.setPose(-11, 60, 90);
     Catapult.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
     // pros::Task screenTask(screen); // create a task to print the position to the screen
@@ -177,40 +177,43 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-  switch (get_selected_auton(AutonPot.get_value())) {
-    case 1:
-      chassis.setPose(-11, 60, 90);
-      near_auton();
+  chassis.setPose(-11, 60, 90);
+  near_auton();
 
-    case 2:
-      chassis.setPose(-11, 60, 90);
-      far_auton();
+  // switch (get_selected_auton(AutonPot.get_value())) {
+  //   case 1:
+  //     chassis.setPose(-11, 60, 90);
+  //     near_auton();
 
-    case 3:
-      return;
+  //   case 2:
+  //     chassis.setPose(-11, 60, 90);
+  //     far_auton();
+
+  //   case 3:
+  //     return;
     
-    case 4:
-      return;
+  //   case 4:
+  //     return;
 
-    case 5:
-      return;
+  //   case 5:
+  //     return;
 
-    case 6: 
-      return;
+  //   case 6: 
+  //     return;
 
-    case 7:
+  //   case 7:
 
-      return;
+  //     return;
 
-    case 8:
-      return;
+  //   case 8:
+  //     return;
     
-    case 9:
-      return;
+  //   case 9:
+  //     return;
 
-    case 10:
-      return;
-  }
+  //   case 10:
+  //     return;
+  // }
 }
 
 /**
@@ -241,6 +244,8 @@ void opcontrol() {
 	while (true) {
 
       printf("hello %d", AutonPot.get_value());
+
+      std::cout << "hello\n";
 
       pros::lcd::print(4,"hello %d" , AutonPot.get_value());
       pros::lcd::print(5,"test %i" , get_selected_auton(AutonPot.get_value()));
