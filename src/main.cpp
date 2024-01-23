@@ -92,11 +92,11 @@ lemlib::ChassisController_t lateralPIDController {
  
 // turning PID
 lemlib::ChassisController_t angularPIDController {
-    4, // kP
+    4.2, // kP
     40, // kD
-    1, // smallErrorRange
+    3, // smallErrorRange
     100, // smallErrorTimeout
-    3, // largeErrorRange
+    10, // largeErrorRange
     500, // largeErrorTimeout
     40 // slew rate
 };
@@ -189,7 +189,8 @@ void autonomous() {
       far_auton();
 
     case 3:
-      return;
+      chassis.setPose(-46, -55, 243);
+      skills();
     
     case 4:
       return;

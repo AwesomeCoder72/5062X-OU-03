@@ -8,3 +8,11 @@ void spin_cata_driver(int shootButtonValue) {
         Catapult.move_velocity(0);
       }
 }
+
+void spin_cata_auto(int velocity) {
+    Catapult.move_relative(10000000, velocity);
+}
+
+void stop_cata_auto() {
+  Catapult.move_velocity(0);
+}
