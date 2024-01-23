@@ -27,29 +27,50 @@ void near_auton() {
 
     actuate_wings(false);
 
-    chassis.moveTo(-64, 26, 1000, 115);
+    chassis.moveTo(-64, 26, 1000, 125);
 
-    // pros::delay(500);
-
-    chassis.moveTo(-60, 40, 1000, 130);
+    chassis.moveTo(-59.5, 38, 1000, 130);
 
     chassis.turnTo(-36, 33, 1000);
 
     chassis.moveTo(-36, 33, 1000, 130);
 
-    chassis.turnTo(-46, 16, 1000);
+    chassis.turnTo(-46, 18, 1000);
 
     stop_intake_auto();
 
-    spin_intake_auto(false, 400);
+    spin_intake_auto(false, 250);
 
-    pros::delay(200);
+    pros::delay(400);
 
-    chassis.turnTo(-7, 24, 1000);
+    chassis.turnTo(-4, 30, 1000);
 
     spin_intake_auto(true, 600);
 
-    chassis.moveTo(-7, 24, 1000, 130);
+    chassis.moveTo(-12, 31, 1000, 130);
+
+    chassis.turnTo(-16, 14, 1000, true);
+
+    chassis.moveTo(-16, 14, 1000, 120);
+
+    actuate_wings(true);
+
+    chassis.turnTo(-8, 14, 1000);
+
+    chassis.moveTo(-42, 9, 1000, 120);
+
+    chassis.moveTo(-34, 9, 1000, 120);
+
+    chassis.turnTo(-42, 9, 1000);
+
+    spin_intake_auto(false, 600);
+
+    chassis.moveTo(-42, 9, 1000, 120);
+
+
+
+
+
 
 
 
