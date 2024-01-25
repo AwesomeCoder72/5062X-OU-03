@@ -138,7 +138,7 @@ void near_auton() {
 
     actuate_wings(true);
 
-    pros::delay(500);
+    pros::delay(250);
 
     chassis.moveTo(48,57,1500,120); // move back to start
 
@@ -146,26 +146,29 @@ void near_auton() {
 
     actuate_wings(false);
 
-    pros::delay(1000);
+    pros::delay(500);
 
     spin_intake_auto(true,600);
 
-    chassis.turnTo(24,24,1500);
+    chassis.turnTo(24,12,1500);
 
-    chassis.moveTo(24, 24, 1500, 120); // setup for middle triball
+    chassis.moveTo(22, 24, 1500, 120); // setup for middle triball
 
-    chassis.turnTo(24,0,1500); // turn to middle triball
+    chassis.turnTo(22,0,1500); // turn to middle triball
 
-    chassis.moveTo(24,12,1500,80); // go to middle triball
+    chassis.moveTo(22,14,1500,80); // go to middle triball
 
-    chassis.moveTo(40,60,1500,80); // head back
+    chassis.moveTo(40,66,1500,80); // head back
 
-    chassis.turnTo(10,60,1500);
+    chassis.turnTo(10,66,1500);
 
     spin_intake_auto(false,600);
 
-    chassis.moveTo(10,60,1500,200);
+    chassis.moveTo(8,66,1500,200);
 
+    actuate_intake(true);
+
+    // chassis.moveTo(4,62,1500,200);
 
 
     pros::delay(100000);
