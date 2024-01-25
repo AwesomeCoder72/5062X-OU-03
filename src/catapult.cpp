@@ -1,9 +1,9 @@
 #include "main.h"
 #include "catapult.hpp"
 
-void spin_cata_driver(int shootButtonValue) {
+void spin_cata_driver(int shootButtonValue, int velocity) {
        if (shootButtonValue == 1) {
-        Catapult.move_voltage(12000);
+        Catapult.move_velocity(velocity);
       } else {
         Catapult.move_velocity(0);
       }

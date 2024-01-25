@@ -19,7 +19,7 @@
 #define DRIVE_RM_PORT 4
 #define DRIVE_RF_PORT 5
 
-#define IMU_PORT 20
+#define IMU_PORT 18
 
 #define CATA_LIMIT_SWITCH_PORT 'H'
 #define AUTON_POT_PORT 'E'
@@ -35,6 +35,9 @@
 
 #define ACTUATE_INTAKE_BUTTON pros::E_CONTROLLER_DIGITAL_X
 #define ACTUATE_WINGS_BUTTON pros::E_CONTROLLER_DIGITAL_A
+
+#define UP_MATCH_LOAD_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_LEFT
+#define DOWN_MATCH_LOAD_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_DOWN
 
 pros::Controller controller (pros::E_CONTROLLER_MASTER);
 pros::Motor Catapult(CATA_MOTOR_PORT, MOTOR_GEARSET_36, true);
@@ -139,8 +142,6 @@ void screen() {
  
 void initialize() {
     chassis.calibrate(); // calibrate the chassis
-    printf("calibrated\n");
-    pros::delay(250);
     pros::lcd::initialize(); // initialize brain screen
 
     // chassis.setPose(-11, 60, 90);
@@ -181,16 +182,19 @@ void competition_initialize() {}
 void autonomous() {
   switch (get_selected_auton(AutonPot.get_value())) {
     case 1:
-      chassis.setPose(-11, 60, 90);
-      near_auton();
+      chassis.setPose(-12, 60, 90);
+      far_auton();
+      return;
 
     case 2:
-      chassis.setPose(-11, 60, 90);
-      far_auton();
+      chassis.setPose(48, 57, 135);
+      near_auton();
+      return;
 
     case 3:
-      chassis.setPose(-46, -55, 243);
+      chassis.setPose(-50, -56, 240);
       skills();
+      return;
     
     case 4:
       return;
@@ -236,10 +240,16 @@ bool actuate_intake_pressed_last = actuate_intake_pressed;
 bool actuate_wings_pressed = false;
 bool actuate_wings_pressed_last = actuate_wings_pressed;
 
+bool up_match_load_speed_pressed = false;
+bool up_match_load_speed_pressed_last = up_match_load_speed_pressed;
+
+bool down_match_load_speed_pressed = false;
+bool down_match_load_speed_pressed_last = down_match_load_speed_pressed;
+
+int match_load_speed = 100;
+
 
 void opcontrol() {
-
-
 
 	while (true) {
 
@@ -247,6 +257,8 @@ void opcontrol() {
 
       pros::lcd::print(4,"hello %d" , AutonPot.get_value());
       pros::lcd::print(5,"test %i" , get_selected_auton(AutonPot.get_value()));
+      pros::lcd::print(6,"match load speed: %i" , match_load_speed);
+
 
         float leftX = curve_drive_values(controller.get_analog(ANALOG_LEFT_X), 10.0);
 
@@ -257,10 +269,36 @@ void opcontrol() {
                      15, 
                      15);
 
-        spin_intake_driver(controller.get_digital(DIGITAL_L1), controller.get_digital(DIGITAL_L2));
-        spin_cata_driver(controller.get_digital(DIGITAL_R1));
+    if (controller.get_digital(UP_MATCH_LOAD_SPEED_BUTTON)) {
+      up_match_load_speed_pressed = true;
+    } else {
+      up_match_load_speed_pressed = false;
+    }
 
-        if (controller.get_digital(ACTUATE_INTAKE_BUTTON)) {
+    if (up_match_load_speed_pressed && ! up_match_load_speed_pressed_last) {
+      match_load_speed += 1;
+    }
+
+    up_match_load_speed_pressed_last = up_match_load_speed_pressed;
+
+    if (controller.get_digital(DOWN_MATCH_LOAD_SPEED_BUTTON)) {
+      down_match_load_speed_pressed = true;
+    } else {
+      down_match_load_speed_pressed = false;
+    }
+
+    if (down_match_load_speed_pressed && ! down_match_load_speed_pressed_last) {
+      match_load_speed -= 1;
+    }
+
+    down_match_load_speed_pressed_last = down_match_load_speed_pressed;
+
+        spin_intake_driver(controller.get_digital(DIGITAL_L1), controller.get_digital(DIGITAL_L2));
+        spin_cata_driver(controller.get_digital(DIGITAL_R1), match_load_speed);
+
+    
+
+    if (controller.get_digital(ACTUATE_INTAKE_BUTTON)) {
       actuate_intake_pressed = true;
     } else {
       actuate_intake_pressed = false;
