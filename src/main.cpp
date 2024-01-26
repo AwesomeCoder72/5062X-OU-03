@@ -197,7 +197,9 @@ void autonomous() {
       return;
     
     case 4:
-      return;
+      chassis.setPose(48, 57, 135); 
+      near_auton_safe();
+
 
     case 5:
       return;
@@ -246,7 +248,7 @@ bool up_match_load_speed_pressed_last = up_match_load_speed_pressed;
 bool down_match_load_speed_pressed = false;
 bool down_match_load_speed_pressed_last = down_match_load_speed_pressed;
 
-int match_load_speed = 100;
+int match_load_speed = 85;
 
 
 void opcontrol() {

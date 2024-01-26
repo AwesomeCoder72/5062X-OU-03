@@ -160,13 +160,52 @@ void near_auton() {
 
     chassis.moveTo(40,66,1500,80); // head back
 
-    chassis.turnTo(10,66,1500);
+    chassis.turnTo(10,66,1500, false, 120);
 
     spin_intake_auto(false,600);
 
-    chassis.moveTo(8,66,1500,200);
+    chassis.moveTo(10,66,1500,200);
 
     actuate_intake(true);
+
+    // chassis.moveTo(4,62,1500,200);
+
+
+    pros::delay(100000);
+
+}
+
+void near_auton_safe() {
+    // chassis.moveTo(5, 60, 1000);
+    // pros::delay(1500);
+    
+    //     spin_intake_auto(true, 600);
+
+    actuate_intake(true);
+
+    chassis.moveTo(57,49,1500,120); // move backwards
+
+    actuate_wings(true);
+
+    pros::delay(250);
+
+    chassis.moveTo(40,62,1500,120); // move back to start
+
+    chassis.turnTo(10,68,1500,true); // push triballs into alley
+
+    chassis.moveTo(6,66,1500,120); // push triballs into alley
+
+    actuate_wings(false);
+
+    chassis.turnTo(46, 44, 1000);
+
+    actuate_wings(true);
+
+    // chassis.turnTo(10,66,1500, false, 120);
+
+    // chassis.moveTo(10,66,1500,200);
+
+    // actuate_intake(true);
 
     // chassis.moveTo(4,62,1500,200);
 

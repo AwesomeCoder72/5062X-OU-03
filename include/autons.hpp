@@ -6,3 +6,4 @@ extern lemlib::Chassis chassis;
 void near_auton();
 void skills();
 void far_auton();
+void near_auton_safe();
