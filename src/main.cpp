@@ -202,7 +202,8 @@ void autonomous() {
 
 
     case 5:
-      return;
+      chassis.setPose(-34, 60, 180);
+      far_auton_safe();
 
     case 6: 
       return;

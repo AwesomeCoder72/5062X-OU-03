@@ -82,47 +82,77 @@ void skills() {
     actuate_intake(true);
 
     spin_cata_auto(100);
-    pros::delay(40000);
+    pros::delay(36500); // 39500
     stop_cata_auto();
 
     chassis.turnTo(0, -59, 1500, true); // turn to move to center
 
-    chassis.moveTo(40, -59, 1500); // move into offensive zone
+    chassis.moveTo(40, -61, 1500); // move into offensive zone
 
-    chassis.turnTo(52.5, -44, 1000, true); // turn to diagonal
+    chassis.turnTo(52.5, -44, 600, true); // turn to diagonal
 
     chassis.moveTo(52.5, -44, 1500, 180);
 
-    chassis.turnTo(58, 0, 1000, true);
+    actuate_wings(true);
+
+    chassis.turnTo(58, 0, 600, true);
 
     chassis.moveTo(58, -24, 1500, 200); // side push??
 
+    actuate_wings(false);
 
-    chassis.moveTo(58,-36, 1500, 120);
+    chassis.moveTo(58,-36, 1500, 160);
 
-    chassis.turnTo(22, -24, 1000, true);
+    chassis.turnTo(22, -24, 600, true);
 
-    chassis.moveTo(22, -24, 1500, 120); //go to line
+    chassis.moveTo(22, -24, 1500, 150); //go to line
 
-    chassis.turnTo(22, 0, 1000, true);
+    chassis.turnTo(22, 0, 600, true);
 
-    chassis.moveTo(22,0,1000,120);
+    chassis.moveTo(22,0,700,160);
 
     actuate_wings(true);
 
-    chassis.turnTo(48, 0, 1000, true);
+    chassis.turnTo(48, 0, 600, true);
 
-    chassis.moveTo(43, -6, 1500, 300); // first push
+    chassis.moveTo(43, -8, 1500, 300); // first push
 
-    chassis.moveTo(10, 6, 1500, 120);
+    actuate_wings(false);
 
-    chassis.moveTo(48, 15, 1500, 300); // second push
+    chassis.moveTo(10, 15, 1500, 160);
 
-    chassis.moveTo(10, 15, 1500, 120);
+    actuate_wings(true);
 
-    chassis.moveTo(48, 15, 1500, 300); // third push
 
-    chassis.moveTo(10,15,120); // final backup
+    chassis.moveTo(43, 15, 1500, 300); // second push
+
+    chassis.moveTo(10, 15, 1500, 160);
+
+    actuate_wings(false);
+
+    chassis.turnTo(44, 50, 600, true);
+
+    chassis.moveTo(44, 50, 700);
+
+    chassis.turnTo(60, 24, 600, true);
+
+    actuate_wings(true);
+
+    chassis.moveTo(60, 18, 700, 200);
+
+    chassis.moveTo(51, 42, 700, 200);
+
+    actuate_wings(false);
+
+
+    chassis.moveTo(60, 18, 700, 200);
+
+    chassis.moveTo(51, 42, 700, 200);
+
+
+    // chassis.moveTo(48, 15, 1500, 300); // third push
+
+    // chassis.moveTo(10,15,120); // final backup
 
 }
 
@@ -152,19 +182,19 @@ void near_auton() {
 
     chassis.turnTo(24,12,1500);
 
-    chassis.moveTo(22, 24, 1500, 120); // setup for middle triball
+    chassis.moveTo(24, 24, 1500, 120); // setup for middle triball
 
-    chassis.turnTo(22,0,1500); // turn to middle triball
+    chassis.turnTo(24,0,1500); // turn to middle triball
 
-    chassis.moveTo(22,14,1500,80); // go to middle triball
+    chassis.moveTo(24,14,1500,80); // go to middle triball
 
-    chassis.moveTo(40,66,1500,80); // head back
+    chassis.moveTo(40,64,1500,80); // head back
 
-    chassis.turnTo(10,66,1500, false, 120);
+    chassis.turnTo(10,64,1500, false, 120);
 
     spin_intake_auto(false,600);
 
-    chassis.moveTo(10,66,1500,200);
+    chassis.moveTo(10,64,1500,200);
 
     actuate_intake(true);
 
@@ -211,5 +241,56 @@ void near_auton_safe() {
 
 
     pros::delay(100000);
+
+}
+
+void far_auton_safe() {
+    spin_intake_auto(true, 600);
+    actuate_intake(true);
+
+    pros::delay(300);
+
+    chassis.moveTo(-36, 12, 2000);
+
+    chassis.turnTo(-60, 12, 1000);
+
+    spin_intake_auto(false, 600);
+
+    pros::delay(750);
+
+    chassis.moveTo(-46, 12, 1000, 200);
+
+    actuate_intake(false);
+
+
+    chassis.moveTo(-36, 12, 2000);
+
+    chassis.turnTo(-46, 12, 1000);
+
+
+    chassis.moveTo(-46, 12, 1000, 200);
+
+    chassis.moveTo(-36, 12, 2000);
+    
+    stop_intake_auto();
+
+
+    chassis.turnTo(-36, 34, 1000, true);
+
+    chassis.moveTo(-36, 34, 1000);
+
+    chassis.turnTo(-12, 34, 1000, true);
+
+    actuate_wings(true);
+
+    chassis.moveTo(-8, 34, 1000);
+
+    chassis.turnTo(-48, 56, 1000);
+
+    actuate_intake(true);
+
+    pros::delay(10000);
+
+
 
 }
