@@ -129,9 +129,13 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 
+pros::Distance distance_sensor(15);
+
 void screen() {
     // loop forever
     while (true) {
+
+
         lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
         pros::lcd::print(0, "x: %f", pose.x); // print the x position
         pros::lcd::print(1, "y: %f", pose.y); // print the y position
@@ -255,6 +259,7 @@ int match_load_speed = 85;
 void opcontrol() {
 
 	while (true) {
+            pros::lcd::print(3,"%i", distance_sensor.get()); // print the x position
 
       printf("hello %d\n", AutonPot.get_value());
 
