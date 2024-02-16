@@ -39,6 +39,8 @@
 #define UP_MATCH_LOAD_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_LEFT
 #define DOWN_MATCH_LOAD_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_DOWN
 
+#define LIMIT_DRIVE_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_RIGHT
+
 pros::Controller controller (pros::E_CONTROLLER_MASTER);
 pros::Motor Catapult(CATA_MOTOR_PORT, MOTOR_GEARSET_36, true);
 pros::Motor Intake(INTAKE_MOTOR_PORT, MOTOR_GEARSET_6, true);
@@ -135,11 +137,13 @@ void screen() {
     // loop forever
     while (true) {
 
+        pros::lcd::print(1, "auton: %i", get_selected_auton(AutonPot.get_value())); // print the x position
 
-        lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
-        pros::lcd::print(0, "x: %f", pose.x); // print the x position
-        pros::lcd::print(1, "y: %f", pose.y); // print the y position
-        pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
+
+        // lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
+        // pros::lcd::print(0, "x: %f", pose.x); // print the x position
+        // pros::lcd::print(1, "y: %f", pose.y); // print the y position
+        // pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
         pros::delay(10);
     }
 }
@@ -151,7 +155,14 @@ void initialize() {
     // chassis.setPose(-11, 60, 90);
     Catapult.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-    // pros::Task screenTask(screen); // create a task to print the position to the screen
+    pros::Task screenTask(screen); // create a task to print the position to the screen
+
+    pros::lcd::print(2,"1 - Far 5 Ball" );
+    pros::lcd::print(3,"2 - Near 4 Ball" );
+    pros::lcd::print(4,"3 - Skills" );
+    pros::lcd::print(5,"4 - Near Safe AWP" );
+    pros::lcd::print(6,"5 - Far Safe AWP" );
+
 }
 
 /**
@@ -159,7 +170,10 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+  pros::lcd::print(1, "auton: %i", get_selected_auton(AutonPot.get_value())); // print the x position
+  pros::delay(10);
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -183,10 +197,17 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
+
+/*
+  1 - Far 5 Ball
+  2 - Near 4 Ball
+  3 - Skills
+  4 - Near Safe AWP
+  5 - Far Safe AWP
+*/
 void autonomous() {
   switch (get_selected_auton(AutonPot.get_value())) {
     case 1:
-      chassis.setPose(-12, 60, 90);
       far_auton();
       return;
 
@@ -223,7 +244,8 @@ void autonomous() {
       return;
 
     case 10:
-      return;
+      chassis.setPose(-50, -56, 240);
+      skills();
   }
 }
 
@@ -253,19 +275,35 @@ bool up_match_load_speed_pressed_last = up_match_load_speed_pressed;
 bool down_match_load_speed_pressed = false;
 bool down_match_load_speed_pressed_last = down_match_load_speed_pressed;
 
-int match_load_speed = 85;
+int match_load_speed = 100;
 
+int drive_ceiling_speed = 80;
+
+/*
+1 - Far 5 Ball
+2 - Near 4 Ball
+3 - Skills
+4 - Near Safe AWP
+5 - Far Safe AWP
+*/
 
 void opcontrol() {
+  
+
+
 
 	while (true) {
-            pros::lcd::print(3,"%i", distance_sensor.get()); // print the x position
+    pros::lcd::print(1, "auton: %i", get_selected_auton(AutonPot.get_value())); // print the x position
 
-      printf("hello %d\n", AutonPot.get_value());
 
-      pros::lcd::print(4,"hello %d" , AutonPot.get_value());
-      pros::lcd::print(5,"test %i" , get_selected_auton(AutonPot.get_value()));
-      pros::lcd::print(6,"match load speed: %i" , match_load_speed);
+            // pros::lcd::print(3,"%i", distance_sensor.get()); // print the x position
+
+      // printf("hello %d\n", AutonPot.get_value());
+
+      // pros::lcd::print(1,"hello %d" , AutonPot.get_value());
+
+      // pros::lcd::print(5,"test %i" , get_selected_auton(AutonPot.get_value()));
+      pros::lcd::print(6,"drive ceiling speed: %i" , drive_ceiling_speed);
 
 
         float leftX = curve_drive_values(controller.get_analog(ANALOG_LEFT_X), 10.0);
@@ -275,7 +313,11 @@ void opcontrol() {
                      controller.get_analog(ANALOG_RIGHT_X), 
                      controller.get_analog(ANALOG_RIGHT_Y), 
                      15, 
-                     15);
+                     15, 
+                     80, 
+                     controller.get_digital(LIMIT_DRIVE_SPEED_BUTTON));
+
+    
 
     if (controller.get_digital(UP_MATCH_LOAD_SPEED_BUTTON)) {
       up_match_load_speed_pressed = true;
@@ -284,7 +326,7 @@ void opcontrol() {
     }
 
     if (up_match_load_speed_pressed && ! up_match_load_speed_pressed_last) {
-      match_load_speed += 1;
+      drive_ceiling_speed += 1;
     }
 
     up_match_load_speed_pressed_last = up_match_load_speed_pressed;
@@ -296,7 +338,7 @@ void opcontrol() {
     }
 
     if (down_match_load_speed_pressed && ! down_match_load_speed_pressed_last) {
-      match_load_speed -= 1;
+      drive_ceiling_speed -= 1;
     }
 
     down_match_load_speed_pressed_last = down_match_load_speed_pressed;

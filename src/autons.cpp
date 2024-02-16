@@ -8,10 +8,11 @@
 #include "autons.hpp"
 
 void far_auton() {
+    chassis.setPose(-12, 60, 90);
     // -11, 60
     actuate_intake(true);
     spin_intake_auto(true, 600);
-    pros::delay(400);
+    pros::delay(200);
 
     // move into centerline ball
 
@@ -50,7 +51,7 @@ void far_auton() {
 
     spin_intake_auto(true, 600);
 
-    chassis.moveTo(-15, 31.5, 1000, 150);
+    chassis.moveTo(-13, 31.6, 1000, 150);
 
     chassis.turnTo(-16, 14, 700, true);
 
@@ -72,6 +73,8 @@ void far_auton() {
 
     chassis.moveTo(-46, 14, 1000, 150);
 
+    actuate_intake(false);
+
     chassis.moveTo(-34, 14, 1000, 150);
 
 }
@@ -82,7 +85,7 @@ void skills() {
     actuate_intake(true);
 
     spin_cata_auto(100);
-    pros::delay(36500); // 39500
+    pros::delay(33500); // 39500
     stop_cata_auto();
 
     chassis.turnTo(0, -59, 1500, true); // turn to move to center
@@ -115,7 +118,19 @@ void skills() {
 
     chassis.turnTo(48, 0, 600, true);
 
-    chassis.moveTo(43, -8, 1500, 300); // first push
+    // chassis.moveTo(43, -8, 1500, 300); // first push
+
+    drive_left.move_relative(-15000, 500);
+    drive_right.move_relative(-15000, 500);
+
+    pros::delay(900);
+
+    drive_left.move_voltage(0);
+    drive_right.move_voltage(0);
+
+    pros::delay(100);
+
+    chassis.setPose(36,0, 270);
 
     actuate_wings(false);
 
@@ -125,6 +140,16 @@ void skills() {
 
 
     chassis.moveTo(43, 15, 1500, 300); // second push
+
+    drive_left.move_relative(-15000, 500);
+    drive_right.move_relative(-15000, 500);
+
+    pros::delay(900);
+
+    drive_left.move_voltage(0);
+    drive_right.move_voltage(0);
+
+    chassis.setPose(36,15, 270);
 
     chassis.moveTo(10, 15, 1500, 160);
 
@@ -147,7 +172,19 @@ void skills() {
 
     chassis.moveTo(60, 18, 700, 200);
 
+    drive_left.move_relative(-15000, 500);
+    drive_right.move_relative(-15000, 500);
+
+    pros::delay(1100);
+
+    drive_left.move_voltage(0);
+    drive_right.move_voltage(0);
+
+    spin_intake_auto(false, 600);
+
     chassis.moveTo(51, 42, 700, 200);
+
+    
 
 
     // chassis.moveTo(48, 15, 1500, 300); // third push
@@ -157,6 +194,7 @@ void skills() {
 }
 
 void near_auton() {
+
     // chassis.moveTo(5, 60, 1000);
     // pros::delay(1500);
     
@@ -221,13 +259,15 @@ void near_auton_safe() {
 
     chassis.moveTo(40,62,1500,120); // move back to start
 
-    chassis.turnTo(10,68,1500,true); // push triballs into alley
-
-    chassis.moveTo(6,66,1500,120); // push triballs into alley
-
     actuate_wings(false);
 
-    chassis.turnTo(46, 44, 1000);
+
+    chassis.turnTo(8,62,1500,true); // push triballs into alley
+
+    chassis.moveTo(8,62,1500,120); // push triballs into alley
+
+
+    chassis.turnTo(46, 42, 1000);
 
     actuate_wings(true);
 

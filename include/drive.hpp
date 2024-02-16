@@ -8,5 +8,6 @@ float scale_drive_values(float inputValue);
 
 float curve_drive_values(int input_value, float scalar);
 
+int ceiling_drive_values(int inputValue, int ceilingValue, int ceiling_pressed);
 
-void split_arcade(int leftX, int leftY, int rightX, int rightY, int leftDeadzone, int rightDeadzone);
+void split_arcade(int leftX, int leftY, int rightX, int rightY, int leftDeadzone, int rightDeadzone, float ceiling_value, int ceiling_pressed);
