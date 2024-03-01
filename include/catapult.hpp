@@ -2,6 +2,11 @@
 #include "main.h"
 #include "pros/motors.hpp"
 
+/*
+    This header file defines all functions and variables for the catapult,
+    and externalizes the ones that will be used outside of catapult.cpp
+*/
+
 extern pros::Motor Catapult;
 extern pros::ADIDigitalIn CataLimit;
 

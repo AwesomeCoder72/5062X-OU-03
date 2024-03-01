@@ -156,6 +156,7 @@ void screen() {
 }
  
 void initialize() {
+  pros::delay(1000);
     chassis.calibrate(); // calibrate the chassis
     pros::delay(200);
 
@@ -174,7 +175,7 @@ void initialize() {
     pros::Task cataTask(cata_limit_switch_task_function);
     pros::delay(50);    
 
-    pros::lcd::print(2,"1 - Far 5 Ball\n" );
+    pros::lcd::set_text(2,"1 - Far 5 Ball\n" );
     pros::delay(100);
     pros::lcd::print(3,"2 - Near 4 Ball" );
     pros::lcd::print(4,"3 - Skills" );
@@ -265,8 +266,11 @@ void autonomous() {
       return;
 
     case 10:
-      chassis.setPose(-50, -56, 240);
-      skills();
+      // chassis.setPose(-50, -56, 240);
+      // skills();
+
+      chassis.setPose(-46, -56, 0);
+      skills2();
   }
 }
 

@@ -301,40 +301,110 @@ void far_auton_safe() {
 
     spin_intake_auto(false, 600);
 
-    pros::delay(750);
+    pros::delay(1000);
 
-    chassis.moveTo(-46, 12, 1000, 200);
-
-    actuate_intake(false);
-
-
-    chassis.moveTo(-36, 12, 2000);
-
-    chassis.turnTo(-46, 12, 1000);
-
-
-    chassis.moveTo(-46, 12, 1000, 200);
-
-    chassis.moveTo(-36, 12, 2000);
-    
     stop_intake_auto();
 
+    chassis.turnTo(60, 12, 1000);
 
-    chassis.turnTo(-36, 34, 1000, true);
+    chassis.moveTo(-48, 12, 1000, 200);
 
-    chassis.moveTo(-36, 34, 1000);
+    chassis.moveTo(-54, 12, 1000, 200);
 
-    chassis.turnTo(-12, 34, 1000, true);
+
+    chassis.turnTo(-36, 35, 1000, true);
+
+    chassis.moveTo(-36, 35, 1000);
+
+    chassis.turnTo(-12, 35, 1000, true);
 
     actuate_back_wings(true);
 
-    chassis.moveTo(-8, 34, 1000);
+    chassis.moveTo(-11, 35, 1000);
 
     chassis.turnTo(-48, 56, 1000);
 
-    actuate_intake(true);
+    // actuate_intake(true);
 
     pros::delay(10000);
+
+
+
+}
+
+void skills2() {
+    chassis.moveTo(-46, -44, 1000);
+    chassis.turnTo(-60, -52, 1000);
+
+    chassis.moveTo(-60, -52, 1000);
+
+    cata_limit_shoot = true;
+    pros::delay(1000);
+
+    cata_limit_shoot = false;
+
+    chassis.moveTo(-54, -52, 1000);
+
+    chassis.turnTo(-30, -69, 1000, true);
+
+    chassis.moveTo(-30, -69, 1500);
+
+    actuate_back_wings(true);
+
+
+    chassis.turnTo(36, -69, 1000, true);
+
+    chassis.moveTo(36, -69, 1500);
+
+    chassis.turnTo(52, -53, 1000, true);
+
+    chassis.moveTo(52, -53, 1500);
+
+    chassis.turnTo(60, -34, 1000, true);
+
+    drive_left.move_relative(-15000, 500);
+    drive_right.move_relative(-15000, 500);
+
+    pros::delay(800);
+
+    drive_left.move_velocity(0);
+    drive_right.move_velocity(0);
+
+    chassis.setPose(60, -34, inertial_sensor.get_heading());
+
+    // chassis.moveTo(61, -33, 1500);
+
+    actuate_back_wings(false);
+
+    chassis.moveTo(64, -42, 1500);
+
+    chassis.turnTo(20, -26, 1500, true);
+
+    chassis.moveTo(20, -26, 1000);
+
+    chassis.turnTo(20, -18, 1500, true);
+
+    chassis.moveTo(20, -18, 1000);
+
+    chassis.turnTo(40, -12, 1500, true);
+
+    actuate_back_wings(true);
+
+    drive_left.move_relative(-15000, 450);
+    drive_right.move_relative(-15000, 500);
+
+    pros::delay(900);
+
+    chassis.setPose(40, -12, inertial_sensor.get_heading());
+
+    // chassis.moveTo(39, -12, 1000);
+
+    chassis.moveTo(20, -12, 1000);
+
+
+
+
+
 
 
 

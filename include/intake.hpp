@@ -2,6 +2,11 @@
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
 
+/*
+    intake.hpp
+    Declares all intake functions and externalizes the intake motor
+*/
+
 extern pros::Motor Intake;
 
 void spin_intake_auto(bool intaking, int velocity);
