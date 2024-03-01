@@ -4,9 +4,9 @@
 extern pros::MotorGroup drive_left;
 extern pros::MotorGroup drive_right;
 
-float scale_drive_values(float inputValue);
-
 float curve_drive_values(int input_value, float scalar);
+
+float scale_drive_values(float inputValue);
 
 int ceiling_drive_values(int inputValue, int ceilingValue, int ceiling_pressed);
 

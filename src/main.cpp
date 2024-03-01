@@ -21,23 +21,28 @@
 
 #define IMU_PORT 18
 
-#define CATA_LIMIT_SWITCH_PORT 'H'
-#define AUTON_POT_PORT 'E'
-#define INTAKE_ACTUATOR_PORT 'G'
-#define WINGS_ACTUATOR_PORT 'F'
+#define CATA_LIMIT_SWITCH_PORT 'E'
+#define AUTON_POT_PORT 'D'
+#define INTAKE_ACTUATOR_PORT 'F'
 
+#define RIGHT_BACK_WING_ACTUATOR_PORT 'G'
+#define LEFT_BACK_WING_ACTUATOR_PORT 'H'
 
 #define AUTON_SELECT_BUTTON pros::E_CONTROLLER_DIGITAL_UP
 
-#define CATA_LAUNCH_ONCE_BUTTON pros::E_CONTROLLER_DIGITAL_R1
+#define CATA_LAUNCH_BUTTON pros::E_CONTROLLER_DIGITAL_R1
+#define CATA_HANG_BUTTON pros::E_CONTROLLER_DIGITAL_R2
+
 #define INTAKE_INTAKE_BUTTON pros::E_CONTROLLER_DIGITAL_L1
 #define INTAKE_OUTTAKE_BUTTON pros::E_CONTROLLER_DIGITAL_L2
 
-#define ACTUATE_INTAKE_BUTTON pros::E_CONTROLLER_DIGITAL_X
-#define ACTUATE_WINGS_BUTTON pros::E_CONTROLLER_DIGITAL_A
+#define ACTUATE_INTAKE_BUTTON pros::E_CONTROLLER_DIGITAL_Y
 
-#define UP_MATCH_LOAD_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_LEFT
-#define DOWN_MATCH_LOAD_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_DOWN
+#define RIGHT_BACK_WING_BUTTON pros::E_CONTROLLER_DIGITAL_B
+#define LEFT_BACK_WING_BUTTON pros::E_CONTROLLER_DIGITAL_DOWN
+
+// #define UP_MATCH_LOAD_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_LEFT
+// #define DOWN_MATCH_LOAD_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_DOWN
 
 #define LIMIT_DRIVE_SPEED_BUTTON pros::E_CONTROLLER_DIGITAL_RIGHT
 
@@ -49,7 +54,9 @@ pros::ADIDigitalIn CataLimit(CATA_LIMIT_SWITCH_PORT);
 pros::ADIAnalogIn AutonPot(AUTON_POT_PORT);
 
 pros::ADIDigitalOut IntakeActuator(INTAKE_ACTUATOR_PORT);
-pros::ADIDigitalOut WingsActuator(WINGS_ACTUATOR_PORT);
+
+pros::ADIDigitalOut RightBackWingActuator(RIGHT_BACK_WING_ACTUATOR_PORT);
+pros::ADIDigitalOut LeftBackWingActuator(LEFT_BACK_WING_ACTUATOR_PORT);
 
 ////////////////////////////////////////////
 // LemLib Drive definitions
@@ -150,18 +157,32 @@ void screen() {
  
 void initialize() {
     chassis.calibrate(); // calibrate the chassis
+    pros::delay(200);
+
+    printf("%b\n", pros::lcd::is_initialized());
+    pros::delay(10);
+
     pros::lcd::initialize(); // initialize brain screen
+
+    printf("what the heck\n");
+    pros::delay(200);
 
     // chassis.setPose(-11, 60, 90);
     Catapult.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-    pros::Task screenTask(screen); // create a task to print the position to the screen
+     // create a task to print the position to the screen
+    pros::Task cataTask(cata_limit_switch_task_function);
+    pros::delay(50);    
 
-    pros::lcd::print(2,"1 - Far 5 Ball" );
+    pros::lcd::print(2,"1 - Far 5 Ball\n" );
+    pros::delay(100);
     pros::lcd::print(3,"2 - Near 4 Ball" );
     pros::lcd::print(4,"3 - Skills" );
     pros::lcd::print(5,"4 - Near Safe AWP" );
     pros::lcd::print(6,"5 - Far Safe AWP" );
+    pros::Task screenTask(screen);
+    pros::delay(50);
+
 
 }
 
@@ -275,7 +296,7 @@ bool up_match_load_speed_pressed_last = up_match_load_speed_pressed;
 bool down_match_load_speed_pressed = false;
 bool down_match_load_speed_pressed_last = down_match_load_speed_pressed;
 
-int match_load_speed = 100;
+int cata_shoot_velocity = 100;
 
 int drive_ceiling_speed = 80;
 
@@ -286,6 +307,18 @@ int drive_ceiling_speed = 80;
 4 - Near Safe AWP
 5 - Far Safe AWP
 */
+
+bool right_back_wing_btn_pressed = false;
+bool right_back_wing_btn_pressed_last = false;
+
+bool left_back_wing_btn_pressed = false;
+bool left_back_wing_btn_pressed_last = false;
+
+bool cata_hang_btn_pressed = false;
+bool cata_hang_btn_pressed_last = false;
+
+bool cata_hang = false;
+
 
 void opcontrol() {
   
@@ -319,32 +352,47 @@ void opcontrol() {
 
     
 
-    if (controller.get_digital(UP_MATCH_LOAD_SPEED_BUTTON)) {
-      up_match_load_speed_pressed = true;
-    } else {
-      up_match_load_speed_pressed = false;
+    // if (controller.get_digital(UP_MATCH_LOAD_SPEED_BUTTON)) {
+    //   up_match_load_speed_pressed = true;
+    // } else {
+    //   up_match_load_speed_pressed = false;
+
+    // }
+
+    // if (up_match_load_speed_pressed && ! up_match_load_speed_pressed_last) {
+    //   drive_ceiling_speed += 1;
+    // }
+
+    // up_match_load_speed_pressed_last = up_match_load_speed_pressed;
+
+    // if (controller.get_digital(DOWN_MATCH_LOAD_SPEED_BUTTON)) {
+    //   down_match_load_speed_pressed = true;
+    // } else {
+    //   down_match_load_speed_pressed = false;
+    // }
+
+    // if (down_match_load_speed_pressed && ! down_match_load_speed_pressed_last) {
+    //   drive_ceiling_speed -= 1;
+    // }
+
+    // down_match_load_speed_pressed_last = down_match_load_speed_pressed;
+
+    if (controller.get_digital(CATA_HANG_BUTTON)) {
+				cata_hang_btn_pressed = true;
+			} else {
+				cata_hang_btn_pressed = false;
+		}
+
+		if (cata_hang_btn_pressed && ! cata_hang_btn_pressed_last) {
+      cata_hang = true;
+		} else {
+      cata_hang = false;
     }
 
-    if (up_match_load_speed_pressed && ! up_match_load_speed_pressed_last) {
-      drive_ceiling_speed += 1;
-    }
-
-    up_match_load_speed_pressed_last = up_match_load_speed_pressed;
-
-    if (controller.get_digital(DOWN_MATCH_LOAD_SPEED_BUTTON)) {
-      down_match_load_speed_pressed = true;
-    } else {
-      down_match_load_speed_pressed = false;
-    }
-
-    if (down_match_load_speed_pressed && ! down_match_load_speed_pressed_last) {
-      drive_ceiling_speed -= 1;
-    }
-
-    down_match_load_speed_pressed_last = down_match_load_speed_pressed;
+    	cata_hang_btn_pressed_last = cata_hang_btn_pressed;
 
         spin_intake_driver(controller.get_digital(DIGITAL_L1), controller.get_digital(DIGITAL_L2));
-        spin_cata_driver(controller.get_digital(DIGITAL_R1), match_load_speed);
+        spin_cata_driver(controller.get_digital(DIGITAL_R1), cata_hang);
 
     
 
@@ -361,18 +409,31 @@ void opcontrol() {
 
     actuate_intake_pressed_last = actuate_intake_pressed;
 
-    if (controller.get_digital(ACTUATE_WINGS_BUTTON)) {
-      actuate_wings_pressed = true;
-    } else {
-      actuate_wings_pressed = false;
-    }
+    if (controller.get_digital(RIGHT_BACK_WING_BUTTON)) {
+				right_back_wing_btn_pressed = true;
+			} else {
+				right_back_wing_btn_pressed = false;
+		}
 
-    if (actuate_wings_pressed && ! actuate_wings_pressed_last) {
-      if (!wings_actuated_value) actuate_wings(true);
-      else actuate_wings(false);
-    }
+		if (right_back_wing_btn_pressed && ! right_back_wing_btn_pressed_last) {
+			if (!right_back_wing_actuated_value) actuate_right_back_wing(true);
+			else actuate_right_back_wing(false);
+		}
 
-    actuate_wings_pressed_last = actuate_wings_pressed;
+    	right_back_wing_btn_pressed_last = right_back_wing_btn_pressed;
+
+		if (controller.get_digital(LEFT_BACK_WING_BUTTON)) {
+				left_back_wing_btn_pressed = true;
+			} else {
+				left_back_wing_btn_pressed = false;
+		}
+
+		if (left_back_wing_btn_pressed && ! left_back_wing_btn_pressed_last) {
+			if (!left_back_wing_actuated_value) actuate_left_back_wing(true);
+			else actuate_left_back_wing(false);
+		}
+
+    	left_back_wing_btn_pressed_last = left_back_wing_btn_pressed;
 
     pros::delay(5);
 

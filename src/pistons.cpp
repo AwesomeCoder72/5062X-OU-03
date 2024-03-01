@@ -8,13 +8,22 @@ void actuate_intake(bool down_value) {
   intake_actuated_value = down_value;
 }
 
-bool wings_actuated_value = false;
+bool right_back_wing_actuated_value = false;
+bool left_back_wing_actuated_value = false;
 
-void actuate_wings(bool out_value) {
-  WingsActuator.set_value(out_value);
-  wings_actuated_value = out_value;
+void actuate_right_back_wing(bool out_value) {
+  RightBackWingActuator.set_value(out_value);
+  right_back_wing_actuated_value = out_value;
 }
 
-void piston_control_driver(int intakeButton, int wingButton) {
-    
+void actuate_left_back_wing(bool out_value) {
+  LeftBackWingActuator.set_value(out_value);
+  left_back_wing_actuated_value = out_value;
+}
+
+void actuate_back_wings(bool out_value) {
+  RightBackWingActuator.set_value(out_value);
+  LeftBackWingActuator.set_value(out_value);
+  right_back_wing_actuated_value = out_value;
+  left_back_wing_actuated_value = out_value;
 }

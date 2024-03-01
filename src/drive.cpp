@@ -1,12 +1,12 @@
 #include "drive.hpp"
 #include "main.h"
 
-float scale_drive_values(float inputValue) {
-    return (inputValue * (12000.0/127.0));
-}
-
 float curve_drive_values(int input_value, float scalar) {
     return (exp( - (scalar / 10.0)) + exp( (abs(input_value) - 127) / 10.0 ) * (1 - exp(-(scalar/10.0))) * input_value);
+}
+
+float scale_drive_values(float inputValue) {
+    return (inputValue * (12000.0/127.0));
 }
 
 int ceiling_drive_values(int inputValue, int ceilingValue, int ceiling_pressed) {

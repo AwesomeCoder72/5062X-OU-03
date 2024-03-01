@@ -6,11 +6,12 @@
 #include "pistons.hpp"
 
 #include "autons.hpp"
+#include <array>
 
 void far_auton() {
     chassis.setPose(-12, 60, 90);
     // -11, 60
-    actuate_intake(true);
+    // actuate_intake(true);
     spin_intake_auto(true, 600);
     pros::delay(200);
 
@@ -21,7 +22,7 @@ void far_auton() {
     // 
     chassis.moveTo(-42, 60, 1000, 160); 
 
-    actuate_wings(true); //wings out for corner
+    actuate_back_wings(true); //wings out for corner
 
     // chassis.turnTo(-22, 70, 1000, false, 100);
 
@@ -31,7 +32,7 @@ void far_auton() {
 
     chassis.moveTo(-66, 18, 1000, 180);
 
-    actuate_wings(false);
+    actuate_back_wings(false);
 
     chassis.moveTo(-59.5, 38, 1000, 150);
 
@@ -59,13 +60,13 @@ void far_auton() {
 
     chassis.turnTo(0, 12, 700);
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
     chassis.moveTo(-46, 16, 1000, 150); //into goal with wings
 
     chassis.moveTo(-34, 14, 1000, 150);
 
-    actuate_wings(false);
+    actuate_back_wings(false);
 
     chassis.turnTo(-42, 14, 700);
 
@@ -82,7 +83,7 @@ void far_auton() {
 void skills() {
     // chassis.moveTo(-50, -56, 400, );-
 
-    actuate_intake(true);
+    // actuate_intake(true);
 
     spin_cata_auto(100);
     pros::delay(33500); // 39500
@@ -96,13 +97,13 @@ void skills() {
 
     chassis.moveTo(52.5, -44, 1500, 180);
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
     chassis.turnTo(58, 0, 600, true);
 
     chassis.moveTo(58, -24, 1500, 200); // side push??
 
-    actuate_wings(false);
+    actuate_back_wings(false);
 
     chassis.moveTo(58,-36, 1500, 160);
 
@@ -114,7 +115,7 @@ void skills() {
 
     chassis.moveTo(22,0,700,160);
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
     chassis.turnTo(48, 0, 600, true);
 
@@ -132,11 +133,11 @@ void skills() {
 
     chassis.setPose(36,0, 270);
 
-    actuate_wings(false);
+    actuate_back_wings(false);
 
     chassis.moveTo(10, 15, 1500, 160);
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
 
     chassis.moveTo(43, 15, 1500, 300); // second push
@@ -153,7 +154,7 @@ void skills() {
 
     chassis.moveTo(10, 15, 1500, 160);
 
-    actuate_wings(false);
+    actuate_back_wings(false);
 
     chassis.turnTo(44, 50, 600, true);
 
@@ -161,13 +162,13 @@ void skills() {
 
     chassis.turnTo(60, 24, 600, true);
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
     chassis.moveTo(60, 18, 700, 200);
 
     chassis.moveTo(51, 42, 700, 200);
 
-    actuate_wings(false);
+    actuate_back_wings(false);
 
 
     chassis.moveTo(60, 18, 700, 200);
@@ -193,6 +194,10 @@ void skills() {
 
 }
 
+// void near_elims_auton() {
+
+// }
+
 void near_auton() {
 
     // chassis.moveTo(5, 60, 1000);
@@ -200,11 +205,11 @@ void near_auton() {
     
     //     spin_intake_auto(true, 600);
 
-    actuate_intake(true);
+    // actuate_intake(true);
 
     chassis.moveTo(57,49,1500,120); // move backwards
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
     pros::delay(250);
 
@@ -212,7 +217,7 @@ void near_auton() {
 
     chassis.moveTo(33,60,1500,120); // push triballs into alley
 
-    actuate_wings(false);
+    actuate_back_wings(false);
 
     pros::delay(500);
 
@@ -249,17 +254,17 @@ void near_auton_safe() {
     
     //     spin_intake_auto(true, 600);
 
-    actuate_intake(true);
+    // actuate_intake(true);
 
     chassis.moveTo(57,49,1500,120); // move backwards
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
     pros::delay(250);
 
     chassis.moveTo(40,62,1500,120); // move back to start
 
-    actuate_wings(false);
+    actuate_back_wings(false);
 
 
     chassis.turnTo(8,62,1500,true); // push triballs into alley
@@ -269,7 +274,7 @@ void near_auton_safe() {
 
     chassis.turnTo(46, 42, 1000);
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
     // chassis.turnTo(10,66,1500, false, 120);
 
@@ -286,7 +291,7 @@ void near_auton_safe() {
 
 void far_auton_safe() {
     spin_intake_auto(true, 600);
-    actuate_intake(true);
+    // actuate_intake(true);
 
     pros::delay(300);
 
@@ -321,7 +326,7 @@ void far_auton_safe() {
 
     chassis.turnTo(-12, 34, 1000, true);
 
-    actuate_wings(true);
+    actuate_back_wings(true);
 
     chassis.moveTo(-8, 34, 1000);
 
