@@ -144,8 +144,9 @@ void screen() {
     // loop forever
     while (true) {
 
-        pros::lcd::print(1, "auton: %i", get_selected_auton(AutonPot.get_value())); // print the x position
-
+        // pros::lcd::print(1, "auton: %i", get_selected_auton(AutonPot.get_value())); // print the x position
+        controller.print(0, 0, "auton: %i   ", get_selected_auton(AutonPot.get_value()));
+        controller.clear();
 
         // lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
         // pros::lcd::print(0, "x: %f", pose.x); // print the x position
@@ -266,6 +267,9 @@ void autonomous() {
       return;
 
     case 10:
+      // chassis.setPose(-50, -56, 240);
+      // skills();
+
       // chassis.setPose(-50, -56, 240);
       // skills();
 

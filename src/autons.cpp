@@ -9,34 +9,58 @@
 #include <array>
 
 void far_auton() {
-    chassis.setPose(-12, 60, 90);
+    chassis.setPose(-11, 60, 90);
     // -11, 60
     // actuate_intake(true);
     spin_intake_auto(true, 600);
-    pros::delay(200);
+    pros::delay(400);
 
     // move into centerline ball
 
 	chassis.moveTo(-7, 60, 1000);
 
     // 
-    chassis.moveTo(-42, 60, 1000, 160); 
+
+    // Pos2
+    chassis.moveTo(-45, 61, 1000, 160); 
 
     actuate_back_wings(true); //wings out for corner
 
     // chassis.turnTo(-22, 70, 1000, false, 100);
 
-    chassis.moveTo(-64, 48, 1000, 70);
+    // Pos3
+    chassis.moveTo(-63, 48, 1000, 70);
 
-    pros::delay(50);
+    chassis.turnTo(-66, 18, 1000, true);
 
-    chassis.moveTo(-66, 18, 1000, 180);
+    // pros::delay(50);
+
+    // drive_left.move_relative(-15000, 500);
+    // drive_right.move_relative(-15000, 500);
+
+    // pros::delay(800);
+
+    // drive_left.move_velocity(0);
+    // drive_right.move_velocity(0);
+
+    // pros::delay(100);
+
+    // chassis.setPose(-66, 24, inertial_sensor.get_heading());
+
+    // pros::delay(50);
+
+    actuate_left_back_wing(false);
+
+    chassis.moveTo(-69, 18, 750, 180); // back into side of goal
 
     actuate_back_wings(false);
 
-    chassis.moveTo(-59.5, 38, 1000, 150);
 
-    // chassis.turnTo(-36, 33, 700);
+    // chassis.turnTo(-59.5, 38, 1000);
+
+    // chassis.moveTo(-59.5, 38, 1000, 150);
+
+    chassis.turnTo(-39, 35, 700);
 
     chassis.moveTo(-39, 35, 1000, 150);
 
@@ -52,31 +76,33 @@ void far_auton() {
 
     spin_intake_auto(true, 600);
 
-    chassis.moveTo(-13, 31.6, 1000, 150);
+    // chassis.moveTo(-13, 31.6, 1000, 150);
 
-    chassis.turnTo(-16, 14, 700, true);
+    chassis.moveTo(-11, 28, 1000, 150);
+    
+    chassis.turnTo(-16, 12, 700, true);
 
-    chassis.moveTo(-16, 14, 1000, 150);
+    chassis.moveTo(-16, 12, 1000, 150);
 
     chassis.turnTo(0, 12, 700);
 
     actuate_back_wings(true);
 
-    chassis.moveTo(-46, 16, 1000, 150); //into goal with wings
+    chassis.moveTo(-48, 12, 1000, 150); //into goal with wings
 
-    chassis.moveTo(-34, 14, 1000, 150);
+    chassis.moveTo(-34, 12, 1000, 150);
 
     actuate_back_wings(false);
 
-    chassis.turnTo(-42, 14, 700);
+    chassis.turnTo(-42, 12, 700);
 
     spin_intake_auto(false, 600);
 
-    chassis.moveTo(-46, 14, 1000, 150);
+    chassis.moveTo(-46, 12, 1000, 150);
 
     actuate_intake(false);
 
-    chassis.moveTo(-34, 14, 1000, 150);
+    chassis.moveTo(-34, 12, 1000, 150);
 
 }
 
@@ -85,27 +111,31 @@ void skills() {
 
     // actuate_intake(true);
 
-    spin_cata_auto(100);
-    pros::delay(33500); // 39500
-    stop_cata_auto();
+    cata_limit_shoot = true;
+    pros::delay(1000); // 39500
+    cata_limit_shoot = false;
 
-    chassis.turnTo(0, -59, 1500, true); // turn to move to center
+    chassis.turnTo(-34, -63, 1500, true); // turn to move to center
+    
+    chassis.moveTo(-34, -63, 1500); 
+
+    chassis.turnTo(40, -61, 1500, true); // turn to move to center
 
     chassis.moveTo(40, -61, 1500); // move into offensive zone
 
-    chassis.turnTo(52.5, -44, 600, true); // turn to diagonal
-
-    chassis.moveTo(52.5, -44, 1500, 180);
+    chassis.turnTo(56, -44, 600, true); // turn to diagonal
 
     actuate_back_wings(true);
 
-    chassis.turnTo(58, 0, 600, true);
+    chassis.moveTo(56, -44, 1500, 180);
 
-    chassis.moveTo(58, -24, 1500, 200); // side push??
+    chassis.turnTo(58, 0, 600, true);
 
     actuate_back_wings(false);
 
-    chassis.moveTo(58,-36, 1500, 160);
+    chassis.moveTo(58, -26, 1500, 200); // side push??
+
+    chassis.moveTo(58,-40, 950, 160);
 
     chassis.turnTo(22, -24, 600, true);
 
@@ -113,11 +143,12 @@ void skills() {
 
     chassis.turnTo(22, 0, 600, true);
 
-    chassis.moveTo(22,0,700,160);
+    chassis.moveTo(22,-14,700,160);
+
+
+    chassis.turnTo(36, -14, 600, true);
 
     actuate_back_wings(true);
-
-    chassis.turnTo(48, 0, 600, true);
 
     // chassis.moveTo(43, -8, 1500, 300); // first push
 
@@ -131,16 +162,24 @@ void skills() {
 
     pros::delay(100);
 
-    chassis.setPose(36,0, 270);
+    chassis.setPose(36,-18, 270);
 
     actuate_back_wings(false);
 
-    chassis.moveTo(10, 15, 1500, 160);
+    chassis.turnTo(22, -18, 600, true);
+
+    chassis.moveTo(22, -18, 1500, 160);
+
+    chassis.turnTo(22, 22, 600, true);
+
+    chassis.moveTo(22, 22, 1500, 160);
 
     actuate_back_wings(true);
 
+    chassis.turnTo(39, 6, 600, true);
 
-    chassis.moveTo(43, 15, 1500, 300); // second push
+
+    // chassis.moveTo(43, 15, 1500, 300); // second push
 
     drive_left.move_relative(-15000, 500);
     drive_right.move_relative(-15000, 500);
@@ -150,7 +189,7 @@ void skills() {
     drive_left.move_voltage(0);
     drive_right.move_voltage(0);
 
-    chassis.setPose(36,15, 270);
+    chassis.setPose(36,11, 270);
 
     chassis.moveTo(10, 15, 1500, 160);
 
@@ -170,11 +209,13 @@ void skills() {
 
     actuate_back_wings(false);
 
+    chassis.turnTo(60, 18, 1500);
 
-    chassis.moveTo(60, 18, 700, 200);
 
-    drive_left.move_relative(-15000, 500);
-    drive_right.move_relative(-15000, 500);
+    // chassis.moveTo(60, 18, 700, 200);
+
+    drive_left.move_relative(-15000, 600);
+    drive_right.move_relative(-15000, 600);
 
     pros::delay(1100);
 
@@ -182,6 +223,8 @@ void skills() {
     drive_right.move_voltage(0);
 
     spin_intake_auto(false, 600);
+
+    chassis.setPose(60, 32, 0);
 
     chassis.moveTo(51, 42, 700, 200);
 
@@ -194,9 +237,9 @@ void skills() {
 
 }
 
-// void near_elims_auton() {
+void near_elims_auton() {
 
-// }
+}
 
 void near_auton() {
 
@@ -333,79 +376,164 @@ void far_auton_safe() {
 }
 
 void skills2() {
-    chassis.moveTo(-46, -44, 1000);
-    chassis.turnTo(-60, -52, 1000);
 
+    // Pos2
+    chassis.moveTo(-46, -44, 1000);
+
+    // Pos3
+    chassis.turnTo(-60, -52, 1000);
     chassis.moveTo(-60, -52, 1000);
 
     cata_limit_shoot = true;
-    pros::delay(1000);
+    pros::delay(36000);
 
     cata_limit_shoot = false;
 
-    chassis.moveTo(-54, -52, 1000);
+    chassis.setPose(-61, -52, inertial_sensor.get_heading());
+    pros::delay(150);
 
-    chassis.turnTo(-30, -69, 1000, true);
+    // Pos4
+    chassis.moveTo(-56, -52, 1000, 150);
 
-    chassis.moveTo(-30, -69, 1500);
+    // Pos5
+    chassis.turnTo(-34, -67, 1000, true, 100);
+    chassis.moveTo(-34, -67, 1500, 150);
 
     actuate_back_wings(true);
 
+    // Pos6
+    chassis.turnTo(36, -67, 1000, true);
+    actuate_right_back_wing(false);
+    chassis.moveTo(36, -67, 1500);
 
-    chassis.turnTo(36, -69, 1000, true);
+    // Pos7
+    // chassis.turnTo(52, -53, 1000, true);
+    // chassis.moveTo(52, -53, 1500);
 
-    chassis.moveTo(36, -69, 1500);
+    // chassis.turnTo(60, -37, 1000, true);
 
-    chassis.turnTo(52, -53, 1000, true);
+    // drive_left.move_relative(-15000, 500);
+    // drive_right.move_relative(-15000, 500);
 
-    chassis.moveTo(52, -53, 1500);
+    // pros::delay(1500);
 
-    chassis.turnTo(60, -34, 1000, true);
+    // drive_left.move_velocity(0);
+    // drive_right.move_velocity(0);
 
-    drive_left.move_relative(-15000, 500);
-    drive_right.move_relative(-15000, 500);
+    // pros::delay(200);
 
-    pros::delay(800);
-
-    drive_left.move_velocity(0);
-    drive_right.move_velocity(0);
-
-    chassis.setPose(60, -34, inertial_sensor.get_heading());
+    // Pos8
+    // chassis.setPose(60, -30, inertial_sensor.get_heading());
 
     // chassis.moveTo(61, -33, 1500);
 
     actuate_back_wings(false);
 
-    chassis.moveTo(64, -42, 1500);
+    // Pos9
+    chassis.turnTo(48, -49, 1500,true);
+    chassis.moveTo(48, -49  , 1500);
 
-    chassis.turnTo(20, -26, 1500, true);
+    // Pos10
+    chassis.turnTo(16, -27, 1500, true);
+    chassis.moveTo(16, -27, 1000);
 
-    chassis.moveTo(20, -26, 1000);
-
-    chassis.turnTo(20, -18, 1500, true);
-
-    chassis.moveTo(20, -18, 1000);
+    // Pos11
+    chassis.turnTo(16, -20, 1500, true);
+    chassis.moveTo(16, -20, 1000);
 
     chassis.turnTo(40, -12, 1500, true);
 
     actuate_back_wings(true);
 
-    drive_left.move_relative(-15000, 450);
-    drive_right.move_relative(-15000, 500);
+    drive_left.move_relative(-15000, 360);
+    drive_right.move_relative(-15000, 400);
 
     pros::delay(900);
 
+    drive_left.move_velocity(0);
+    drive_right.move_velocity(0);
+
+    pros::delay(200);
+
+    // Pos12
     chassis.setPose(40, -12, inertial_sensor.get_heading());
+
+    actuate_back_wings(false);
 
     // chassis.moveTo(39, -12, 1000);
 
-    chassis.moveTo(20, -12, 1000);
+    // Pos13
+    chassis.moveTo(16, -12, 1000);
+
+    // Pos14
+    chassis.turnTo(16, 20, 1000, true);
+    chassis.moveTo(16, 20, 1000);
+
+    // Pos15
+    chassis.turnTo(41, 2, 1000, true); 
+
+    actuate_back_wings(true);
+
+    drive_left.move_relative(-15000, 400);
+    drive_right.move_relative(-15000, 400);
+
+    pros::delay(1500);
+
+    drive_left.move_velocity(0);
+    drive_right.move_velocity(0);
+
+    pros::delay(200);
+
+    chassis.setPose(41, 2, inertial_sensor.get_heading());
+
+    actuate_back_wings(false);
+
+    // Pos16
+    chassis.moveTo(14, 2, 1000, true);
 
 
+    // // PosNA
+    // chassis.turnTo(27, 33, 1000, true);
+    // chassis.moveTo(27, 33, 1000);
 
+    // Pos17
+    chassis.turnTo(44, 55, 1000, true);
+    actuate_left_back_wing(true);
+    chassis.moveTo(44, 55, 1000);
 
+    // Pos18
+    chassis.turnTo(59, 41, 1000, true);
+    actuate_back_wings(true);   
 
+    drive_left.move_relative(-15000, 400);
+    drive_right.move_relative(-15000, 400);
 
+    pros::delay(1500);
 
+    drive_left.move_velocity(0);
+    drive_right.move_velocity(0);
+
+    pros::delay(200);
+
+    chassis.setPose(59,41, inertial_sensor.get_heading());
+
+    // Pos19
+    chassis.turnTo(59, 32, 1000, true);
+
+    drive_left.move_relative(-15000, 400);
+    drive_right.move_relative(-15000, 400);
+
+    pros::delay(1500);
+
+    drive_left.move_velocity(0);
+    drive_right.move_velocity(0);
+
+    pros::delay(200);
+
+    chassis.setPose(59, 32, inertial_sensor.get_heading());
+    
+    // Pos20
+    chassis.moveTo(59, 46, 1000);
+    actuate_back_wings(false);
 
 }
